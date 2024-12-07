@@ -1,4 +1,5 @@
 import pygame
+import random
 from inventory.item.enemies import Enemy 
 
 class Grid:
@@ -10,9 +11,7 @@ class Grid:
         self.height = int(screen.get_height()*(2/3))
         self.num_rows = 5
         self.num_columns = 10
-        self.enemies = [
-            Enemy(self.base, self.width, self.height),
-        ]
+        self.enemies = []
 
     def get_pixel_position(self, row, column):
         return (self.base[0] + self.width/self.num_columns/2 + column*self.width/self.num_columns, self.base[1] + self.height/self.num_rows/2 + row*self.height/self.num_rows)
@@ -30,7 +29,10 @@ class Grid:
 
         # after random time add a new enemy
         if pygame.time.get_ticks() % 60 == 0:
-            enemy = Enemy(self.base, self.width, self.height)
+
+            row = random.randint(0, self.num_rows-2)
+            enemy_position = self.get_pixel_position(row, self.num_columns-1)
+            enemy = Enemy(enemy_position)
             self.enemies.append(enemy)
         
         # draw all enemies' updated positions
