@@ -12,6 +12,7 @@ class Grid:
         self.num_rows = 5
         self.num_columns = 10
         self.enemies = []
+        self.background = pygame.image.load("assets/background_space.png").convert_alpha()
 
     def get_pixel_position(self, row, column):
         return (self.base[0] + self.width/self.num_columns/2 + column*self.width/self.num_columns, self.base[1] + self.height/self.num_rows/2 + row*self.height/self.num_rows)
@@ -42,7 +43,12 @@ class Grid:
        
 
     def update(self):
-        pygame.draw.rect(self.screen, self.color, pygame.Rect(self.base[0], self.base[1],self.width, self.height))
+        # pygame.draw.rect(self.screen, self.color, pygame.Rect(self.base[0], self.base[1],self.width, self.height))
+
+        # draw the background from the assets
+        self.screen.blit(self.background, (self.base[0], self.base[1]))
+
+
         self.draw_grid()    
         self.draw_enemies()    
 
