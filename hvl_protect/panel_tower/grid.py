@@ -1,6 +1,8 @@
 import pygame
 import random
 from inventory.item.enemies import Enemy 
+from inventory.item.towers import Tower
+from inventory.item.towers import TowerSelector
 
 class Grid:
     def __init__(self, screen, base=[0,0]) -> None:
@@ -12,25 +14,20 @@ class Grid:
         self.num_rows = 5
         self.num_columns = 10
         self.enemies = []
-        self.tower_selection_box_offset = [50, 400]
-        self.tower_selection_box_size = 70
-        self.space_between_tower_selection = 100
-        self.tower_selection_box_color = "black"
-        self.n_of_towers = 4
-        self.towers= 4*[pygame.Rect(0,0,0,0)]
-    
-    def generater_towers(self):
-        tower_index = 0
-        for tower in self.towers:
-            tower[0] = self.tower_selection_box_offset[0] + tower_index*self.space_between_tower_selection
-            tower[1] = self.tower_selection_box_offset[1]
-            tower[2] = self.tower_selection_box_size
-            tower[3] = self.tower_selection_box_size
-            tower_index += 1
-            pygame.draw.rect(self.screen, "black", tower)
 
-    def select_and_place_tower(self):
-        pass
+        self.selector = TowerSelector()
+    
+    def generater_selector_towers(self):
+        self.selector.generater_towers()
+        for tower in self.selector.towers:
+            pygame.draw.rect(self.screen, self.selector.tower_selection_box_color, tower.shape)
+
+    def select_and_place_tower(self,mouse_clicked_pos):
+        # print(self.selector.towers[0][0])
+        for tower in self.selector.towers:
+            if (mouse_clicked_pos[0]-tower.shape[0] <= self.selector.tower_selection_box_size 
+                and mouse_clicked_pos[1]-tower.shape[1] <= self.selector.tower_selection_box_size):
+                print("here")
 
         
 
@@ -67,7 +64,7 @@ class Grid:
         self.draw_grid()    
         self.draw_enemies()    
         self.draw_grid()        
-        self.generater_towers()
+        self.generater_selector_towers()
 
         
    
