@@ -9,8 +9,8 @@ screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
 running = True
 
-panel_tower = TowerGrid(screen, base=[10,100])
-panel_question = QuestionGrid(screen, base=[10,500])
+panel_tower = TowerGrid(screen, base=[0,0])
+panel_question = QuestionGrid(screen, base=[0,720*(2/3)])
 
 dt = 0
 
