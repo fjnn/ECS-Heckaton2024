@@ -5,8 +5,8 @@ class Grid:
         self.base = base
         self.screen = screen
         self.color = "green"
-        self.width = 1280
-        self.height = 720*(2/3)
+        self.width = screen.get_width()
+        self.height = int(screen.get_height()*(2/3))
         self.num_rows = 5
         self.num_columns = 10
 
