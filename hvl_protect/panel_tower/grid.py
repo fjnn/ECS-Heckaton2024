@@ -21,15 +21,17 @@ class Grid:
     
     def generater_towers(self):
         tower_index = 0
-        print("here")
         for tower in self.towers:
             tower[0] = self.tower_selection_box_offset[0] + tower_index*self.space_between_tower_selection
             tower[1] = self.tower_selection_box_offset[1]
             tower[2] = self.tower_selection_box_size
             tower[3] = self.tower_selection_box_size
             tower_index += 1
-            print(tower[0], tower[1], tower[2], tower[3])
             pygame.draw.rect(self.screen, "black", tower)
+
+    def select_and_place_tower(self):
+        pass
+
         
 
     def get_pixel_position(self, row, column):
