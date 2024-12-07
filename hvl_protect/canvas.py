@@ -1,6 +1,7 @@
 # Example file showing a basic pygame "game loop"
 import pygame
 from inventory.item.enemies import Enemy 
+from panel_tower.grid import Grid as TowerGrid
 
 # pygame setup
 pygame.init()
@@ -11,6 +12,8 @@ enemy_1 = Enemy() ## Can/Must be a list later on
 enemy_2 = Enemy()
 enemy_2.position = [400, 400]
 enemies = [enemy_1, enemy_2]
+
+panel_tower = TowerGrid(screen, base=[500,60])
 
 dt = 0
 
@@ -24,8 +27,14 @@ while running:
 
     # fill the screen with a color to wipe away anything from last frame
     screen.fill("seashell4")
+
+
     for enemy in enemies:
         pygame.draw.circle(screen, enemy.color, enemy.position, enemy.size)
+
+    panel_tower.update()
+
+    
     
 
     # flip() the display to put your work on screen
