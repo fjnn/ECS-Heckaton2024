@@ -13,6 +13,25 @@ class Grid:
         self.num_columns = 10
         self.enemies = []
         self.background = pygame.image.load("assets/background_space.png").convert_alpha()
+        self.tower_selection_box_offset = [50, 400]
+        self.tower_selection_box_size = 70
+        self.space_between_tower_selection = 100
+        self.tower_selection_box_color = "black"
+        self.n_of_towers = 4
+        self.towers= 4*[pygame.Rect(0,0,0,0)]
+    
+    def generater_towers(self):
+        tower_index = 0
+        for tower in self.towers:
+            tower[0] = self.tower_selection_box_offset[0] + tower_index*self.space_between_tower_selection
+            tower[1] = self.tower_selection_box_offset[1]
+            tower[2] = self.tower_selection_box_size
+            tower[3] = self.tower_selection_box_size
+            tower_index += 1
+            pygame.draw.rect(self.screen, "black", tower)
+
+    def select_and_place_tower(self):
+        pass
 
     def get_pixel_position(self, row, column):
         return (self.base[0] + self.width/self.num_columns/2 + column*self.width/self.num_columns, self.base[1] + self.height/self.num_rows/2 + row*self.height/self.num_rows)
@@ -48,6 +67,8 @@ class Grid:
 
         self.draw_grid()    
         self.draw_enemies()    
+        self.draw_grid()        
+        self.generater_towers()
 
         
    
