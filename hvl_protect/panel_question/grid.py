@@ -48,7 +48,7 @@ class Grid:
                     self.selection = 0
                 else:
                     if self.verifyAnswer():
-                        self.energy_manager.current_energy += 3
+                        self.energy_manager.add_energy(3)
                         self.question = self.getQuestion()
                         self.selection = 0
                     else:
