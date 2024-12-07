@@ -9,19 +9,19 @@ class Grid:
         self.width = 500
         self.height = 200
         self.enemies = [
-            Enemy(self.width, self.height),
+            Enemy(self.base, self.width, self.height),
             
         ]
 
     def update(self):
-        pygame.draw.rect(self.screen, self.color, pygame.Rect(self.base[0], self.base[1],self.width, self.height))
+        pygame.draw.rect(self.screen, self.color, pygame.Rect(self.base[0], self.base[1], self.width, self.height))
 
         # after random time add a new enemy
-        if pygame.time.get_ticks() % 40 == 0:
-            enemy = Enemy(self.width, self.height)
+        if pygame.time.get_ticks() % 60 == 0:
+            enemy = Enemy(self.base, self.width, self.height)
             self.enemies.append(enemy)
         
-        # draw all enemoes updated positions
+        # draw all enemies' updated positions
         for enemy in self.enemies:
             enemy.move()
             pygame.draw.circle(self.screen, enemy.color, (enemy.position[0], enemy.position[1]), enemy.size)
