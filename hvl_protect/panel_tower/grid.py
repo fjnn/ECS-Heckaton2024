@@ -65,7 +65,9 @@ class Grid:
         # draw all enemies' updated positions
         for enemy in self.enemies:
             enemy.move()
-            pygame.draw.circle(self.screen, enemy.color, (enemy.position[0], enemy.position[1]), enemy.size)
+            enemy.swap_index()
+            self.screen.blit(enemy.imgs[enemy.img_index], (enemy.position[0], enemy.position[1]))
+            # pygame.draw.circle(self.screen, enemy.color, (enemy.position[0], enemy.position[1]), enemy.size)
        
     def update_energy_bar(self):
         bar_height = 20
