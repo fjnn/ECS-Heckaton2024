@@ -83,8 +83,7 @@ class Grid:
 
         self.draw_grid()    
         self.draw_enemies()    
-        self.update_energy_bar()
-        self.draw_grid()        
+        self.update_energy_bar()       
         self.generater_towers()
 
         
