@@ -2,6 +2,7 @@
 import pygame
 from panel_tower.grid import Grid as TowerGrid
 from panel_question.grid import Grid as QuestionGrid
+from inventory.item.energy import Energy
 
 # pygame setup
 pygame.init()
@@ -9,7 +10,9 @@ screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
 running = True
 
-panel_tower = TowerGrid(screen, base=[0,0])
+energy_manager = Energy()
+
+panel_tower = TowerGrid(screen, energy_manager=energy_manager, base=[0,0])
 panel_question = QuestionGrid(screen, base=[0,screen.get_height()*(2/3)])
 
 dt = 0
