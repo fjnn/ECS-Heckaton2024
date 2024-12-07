@@ -31,9 +31,22 @@ while running:
     panel_tower.update()
     panel_question.update()
 
+    # if q pressed, quit
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_q] or keys[pygame.K_ESCAPE]:
+        # display closing message and close the game
+        background_img = pygame.image.load("assets/background_space.png").convert_alpha()
+        screen.blit(background_img, (0,0))
+        pygame.font.init()
+        myfont = pygame.font.SysFont('Arial', 30)
+        text_surface = myfont.render('Closing...', False, (255, 255, 255))
+        screen.blit(text_surface, (int(screen.get_width()/2)-64,int(screen.get_height()/2)-24))
+
+        running = False
+
     # flip() the display to put your work on screen
     pygame.display.flip()
 
-    clock.tick(30)  # limits FPS to 60
+    clock.tick(60)  # limits FPS to 60
 
 pygame.quit()
