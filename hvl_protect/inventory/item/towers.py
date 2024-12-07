@@ -18,10 +18,11 @@ class TowerSelector:
         self.space_between_tower_selection = 100
         self.n_of_towers = 4
         self.towers = []
-        self.tower_colors = self.n_of_towers*["black"]
         self.generater_towers()
         self.change_color_selected(index=-1)
         self.selected = None
+        self.default_color = "black"
+        self.selected_color = "blue"
     
     def generater_towers(self):
         self.towers=[]

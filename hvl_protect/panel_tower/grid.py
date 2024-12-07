@@ -29,13 +29,13 @@ class Grid:
                 and mouse_clicked_pos[0] <= self.selector.towers[i].shape[0]+self.selector.tower_selection_box_size
                 and mouse_clicked_pos[1] >= self.selector.towers[i].shape[1] 
                 and mouse_clicked_pos[1] <= self.selector.towers[i].shape[1]+self.selector.tower_selection_box_size):
-                self.selector.selected = i
-                print("selected  ", i)
-            # print("mouse:  ", mouse_clicked_pos)
-            # print("tower:  ", self.selector.towers[i].shape)
-            # print("size:  ", self.selector.tower_selection_box_size)
-                # print(self.selector.selected)
-                # self.selector.change_color_selected(i)
+                if self.selector.selected == i:
+                    self.selector.selected = -1
+                    self.selector.towers[i].color = self.selector.default_color
+                else:
+                    self.selector.selected = i
+                    self.selector.towers[i].color = self.selector.selected_color
+
 
     def get_pixel_position(self, row, column):
         return (self.base[0] + self.width/self.num_columns/2 + column*self.width/self.num_columns, self.base[1] + self.height/self.num_rows/2 + row*self.height/self.num_rows)
