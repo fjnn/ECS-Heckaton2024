@@ -16,6 +16,11 @@ class Grid:
     def update(self):
         pygame.draw.rect(self.screen, self.color, pygame.Rect(self.base[0], self.base[1], self.width, self.height))
 
+        # check if any enemies have to be removed
+        for enemy in self.enemies:
+            if enemy.position[0] < self.base[0] or enemy.health <= 0:
+                self.enemies.remove(enemy)
+
         # after random time add a new enemy
         if pygame.time.get_ticks() % 60 == 0:
             enemy = Enemy(self.base, self.width, self.height)

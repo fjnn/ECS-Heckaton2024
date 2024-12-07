@@ -5,6 +5,7 @@ ENEMY_SIZE = 10
 class Enemy:
     def __init__(self, grid_base, grid_width, grid_height) -> None:
         self.generate(grid_base, grid_width, grid_height)
+        self.health = 100
 
     def generate(self, grid_base, grid_width, grid_height):
         """
@@ -37,3 +38,14 @@ class Enemy:
         """
 
         self.position[0] -= self.speed
+
+    
+    def take_damage(self, damage):
+        """
+        Reduce the enemy's health by the damage amount.
+
+        Args:
+            damage (int): The amount of damage to deal.
+        """
+
+        self.health -= damage
