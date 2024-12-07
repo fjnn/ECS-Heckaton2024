@@ -11,6 +11,14 @@ class Tower:
         self.color = color
 
 
+class GridTowers:
+    def __init__(self):
+        self.towers = []
+
+    def append_tower(self, position):
+        pass
+
+
 class TowerSelector:
     def __init__(self) -> None:
         self.tower_selection_box_offset = [50, 400]

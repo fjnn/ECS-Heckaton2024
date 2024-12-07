@@ -13,6 +13,7 @@ class Grid:
         self.height = int(screen.get_height()*(2/3))
         self.num_rows = 5
         self.num_columns = 10
+        self.grid_size = 30
         self.enemies = []
 
         self.selector = TowerSelector()
@@ -23,19 +24,21 @@ class Grid:
             pygame.draw.rect(self.screen, self.selector.towers[tower_index].color, tower.shape)
             tower_index += 1
 
-    def select_and_place_tower(self,mouse_clicked_pos):
+    def select_tower(self,mouse_clicked_pos):
         for i in range(self.selector.n_of_towers):
             if (mouse_clicked_pos[0] >= self.selector.towers[i].shape[0] 
                 and mouse_clicked_pos[0] <= self.selector.towers[i].shape[0]+self.selector.tower_selection_box_size
                 and mouse_clicked_pos[1] >= self.selector.towers[i].shape[1] 
                 and mouse_clicked_pos[1] <= self.selector.towers[i].shape[1]+self.selector.tower_selection_box_size):
-                if self.selector.selected == i:
+                if self.selector.selected == i: # deselect tower
                     self.selector.selected = -1
                     self.selector.towers[i].color = self.selector.default_color
                 else:
                     self.selector.selected = i
                     self.selector.towers[i].color = self.selector.selected_color
 
+    def place_tower(self,mouse_clicked_pos):
+        pass
 
     def get_pixel_position(self, row, column):
         return (self.base[0] + self.width/self.num_columns/2 + column*self.width/self.num_columns, self.base[1] + self.height/self.num_rows/2 + row*self.height/self.num_rows)

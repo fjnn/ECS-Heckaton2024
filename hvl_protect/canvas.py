@@ -24,7 +24,20 @@ while running:
         # handle MOUSEBUTTONUP
         if event.type == pygame.MOUSEBUTTONUP:
             mouse_clicked_pos = pygame.mouse.get_pos()
-            panel_tower.select_and_place_tower(mouse_clicked_pos)
+            panel_tower.select_tower(mouse_clicked_pos)
+            # Check if selected tower will be placed in the grid
+            if not panel_tower.selector.selected == -1: 
+                # Check if it is one of the grids
+                selected_grid = [0,0]
+                for i in range(panel_tower.num_columns):
+                    for j in range(panel_tower.num_rows):
+                        grid = panel_tower.get_pixel_position(i,j)
+                        if(grid[0]-mouse_clicked_pos[0] >= 0):
+                            break
+                    if(grid[1]-mouse_clicked_pos[1] >= 0):
+                        break
+                
+
 
     # fill the screen with a color to wipe away anything from last frame
     screen.fill("seashell4")
