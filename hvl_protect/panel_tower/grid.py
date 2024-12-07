@@ -23,6 +23,7 @@ class Grid:
         self.tower_selection_box_color = "black"
         self.n_of_towers = 4
         self.towers= 4*[pygame.Rect(0,0,0,0)]
+        self.current_score = 0
     
     def generater_towers(self):
         tower_index = 0
@@ -51,6 +52,7 @@ class Grid:
         for enemy in self.enemies:
             if enemy.position[0] < self.base[0] or enemy.health <= 0:
                 self.enemies.remove(enemy)
+                self.current_score += 10
 
         # after random time add a new enemy
         if pygame.time.get_ticks() % 60 == 0:
@@ -63,7 +65,9 @@ class Grid:
         # draw all enemies' updated positions
         for enemy in self.enemies:
             enemy.move()
-            pygame.draw.circle(self.screen, enemy.color, (enemy.position[0], enemy.position[1]), enemy.size)
+            enemy.swap_index()
+            self.screen.blit(enemy.imgs[enemy.img_index], (enemy.position[0], enemy.position[1]))
+            # pygame.draw.circle(self.screen, enemy.color, (enemy.position[0], enemy.position[1]), enemy.size)
        
     def update_energy_bar(self):
         bar_height = 20
@@ -76,6 +80,12 @@ class Grid:
         pygame.draw.rect(self.screen, "blue", pygame.Rect(x_base, y_base-bar_height/2, (x_end-x_base)*ratio, bar_height))
         write_text(self.screen, f"{self.energy_manager.current_energy}", x=x_base+(x_end-x_base)/2, y=y_base, size=text_size)
 
+    def update_scoring(self):
+        text_size = 80
+        x_start, y_start = self.get_pixel_position(4, 8)
+        x_end, y_end = self.get_pixel_position(4, 9)
+        write_text(self.screen, f"{self.current_score}", x=x_start+(x_end-x_start)/2, y=y_start, size=text_size)
+        pass
 
     def update(self):
         # draw the background from the assets
@@ -85,6 +95,7 @@ class Grid:
         self.draw_enemies()    
         self.update_energy_bar()       
         self.generater_towers()
+        self.update_scoring()
 
         
    
