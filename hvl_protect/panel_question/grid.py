@@ -1,8 +1,10 @@
 import pygame
 import random
+import math
 from inventory.item.energy import Energy
 
 PADDING = 40
+LINE_WIDTH = 96
 
 class Grid:
     def __init__(self, screen, energy_manager: Energy, base=[0,0]) -> None:
@@ -47,6 +49,8 @@ class Grid:
                 else:
                     if self.verifyAnswer():
                         self.energy_manager.current_energy += 3
+                        self.question = self.getQuestion()
+                        self.selection = 0
                     else:
                         self.answer_screen = True
             
@@ -98,14 +102,15 @@ class Grid:
 
         # select sections of 60 characters from the question for
         question_wrapped = []
-        if len(self.question[0]) < 60:
+        if len(self.question[0]) < LINE_WIDTH:
             question_wrapped.append(self.question[0])
         else:
-            for i in range(0, int(len(self.question[0])/60)):
-                end_idx = 100+i*100
+            for i in range(0, math.ceil(len(self.question[0])/LINE_WIDTH)):
+                end_idx = LINE_WIDTH+i*LINE_WIDTH
                 if end_idx > len(self.question[0]):
                     end_idx = len(self.question[0])
-                question_wrapped.append(self.question[0][0+i*100:end_idx])
+
+                question_wrapped.append(self.question[0][0+i*LINE_WIDTH:end_idx])
     
         for i in range(0, len(question_wrapped)):
             text_surface = myfont.render(question_wrapped[i], False, (255, 255, 255))
