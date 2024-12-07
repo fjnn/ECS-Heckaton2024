@@ -28,6 +28,18 @@ while running:
     panel_tower.update()
     panel_question.update()
 
+    # if q pressed, quit
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_q] or keys[pygame.K_ESCAPE]:
+        # display closing message and close the game
+        pygame.draw.rect(screen, "seashell4", pygame.Rect(0,0,screen.get_width(),screen.get_height()))
+        pygame.font.init()
+        myfont = pygame.font.SysFont('Arial', 30)
+        text_surface = myfont.render('Closing...', False, (255, 255, 255))
+        screen.blit(text_surface, (int(screen.get_width()/2)-64,int(screen.get_height()/2)-24))
+
+        running = False
+
     # flip() the display to put your work on screen
     pygame.display.flip()
 
