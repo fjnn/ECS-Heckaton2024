@@ -1,0 +1,1 @@
+from space_shooter_game.space_shuttle import Shuttle
