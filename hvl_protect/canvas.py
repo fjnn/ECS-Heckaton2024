@@ -14,8 +14,8 @@ enemy_2 = Enemy()
 enemy_2.position = [400, 400]
 enemies = [enemy_1, enemy_2]
 
-panel_tower = TowerGrid(screen, base=[10,100])
-panel_question = QuestionGrid(screen, base=[10,500])
+panel_tower = TowerGrid(screen, base=[0,0])
+panel_question = QuestionGrid(screen, base=[0,720*(2/3)])
 
 dt = 0
 
