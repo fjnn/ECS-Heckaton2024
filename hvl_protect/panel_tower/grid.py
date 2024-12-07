@@ -2,8 +2,10 @@ import pygame
 import random
 from inventory.item.enemies import Enemy 
 
+from .inventory.item.energy import Energy
+
 class Grid:
-    def __init__(self, screen, base=[0,0]) -> None:
+    def __init__(self, screen, base=[0,0], en) -> None:
         self.base = base
         self.screen = screen
         self.color = "green"
@@ -40,6 +42,8 @@ class Grid:
             enemy.move()
             pygame.draw.circle(self.screen, enemy.color, (enemy.position[0], enemy.position[1]), enemy.size)
        
+    def update_energy_bar(self):
+
 
     def update(self):
         pygame.draw.rect(self.screen, self.color, pygame.Rect(self.base[0], self.base[1],self.width, self.height))
