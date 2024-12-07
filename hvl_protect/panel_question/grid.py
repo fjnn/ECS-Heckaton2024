@@ -13,7 +13,16 @@ class Grid:
         self.color = "lightblue4"
         self.width = screen.get_width()
         self.height = int(screen.get_height()*(1/3))
-        self.question = self.getQuestion()
+        self.questions = []
+
+        # load a question from the questions csv file
+        with open("assets/questions_cat1.csv", "r") as file:
+            for line in file:
+                self.questions.append(line.strip().split(","))
+        random.shuffle(self.questions)
+
+        self.current_question = self.getQuestion()
+        self.answers = self.current_question[1:len(self.current_question)-1]
         self.selection = 0
         self.last_key = None
         self.answer_screen = False
@@ -71,28 +80,25 @@ class Grid:
             if self.selection > 0:
                 self.selection -= 1
         elif direction == "right":
-            if self.selection < len(self.question)-3:
+            if self.selection < len(self.current_question)-3:
                 self.selection += 1
 
 
     def getQuestion(self):
-        
-        # load a question from the questions csv file
-        questions = []
-        with open("assets/questions_cat1.csv", "r") as file:
-            for line in file:
-                questions.append(line.strip().split(","))
-
+    
         # pick a random question
-        question = random.choice(questions)
+        current_question = random.choice(self.questions)
+         # get answers only to shuffle
+        self.answers = current_question[1:len(current_question)-1]
+        # shuffle answers
+        random.shuffle(self.answers)
 
-        return question
+        return current_question
     
 
     def verifyAnswer(self):
-        return self.question[self.selection+1] == self.question[len(self.question)-1]
+        return self.current_question[self.selection+1] == self.current_question[len(self.current_question)-1]
         
-
 
     def displayQuestion(self):
 
@@ -102,26 +108,27 @@ class Grid:
 
         # select sections of 60 characters from the question for
         question_wrapped = []
-        if len(self.question[0]) < LINE_WIDTH:
-            question_wrapped.append(self.question[0])
+        if len(self.current_question[0]) < LINE_WIDTH:
+            question_wrapped.append(self.current_question[0])
         else:
-            for i in range(0, math.ceil(len(self.question[0])/LINE_WIDTH)):
+            for i in range(0, math.ceil(len(self.current_question[0])/LINE_WIDTH)):
                 end_idx = LINE_WIDTH+i*LINE_WIDTH
-                if end_idx > len(self.question[0]):
-                    end_idx = len(self.question[0])
+                if end_idx > len(self.current_question[0]):
+                    end_idx = len(self.current_question[0])
 
-                question_wrapped.append(self.question[0][0+i*LINE_WIDTH:end_idx])
+                question_wrapped.append(self.current_question[0][0+i*LINE_WIDTH:end_idx])
     
         for i in range(0, len(question_wrapped)):
             text_surface = myfont.render(question_wrapped[i], False, (255, 255, 255))
             self.screen.blit(text_surface, (self.base[0] + PADDING, self.base[1] + (i+1)*PADDING))
 
         # divide space into equally sized sections
-        offset = int((self.width - 16 - self.base[0] + 8) / (len(self.question)-2))
-        for i in range(0, len(self.question)-2):
+        offset = int(self.width - 16 - self.base[0] + 8) / (len(self.answers))
+
+        for i in range(0, len(self.current_question)-2):
             if self.selection == i:
                 pygame.draw.polygon(self.screen, "white", ((self.base[0] + PADDING + i*offset, self.base[1] + 4*PADDING+10),(self.base[0] + PADDING + 12 + i*offset, self.base[1] + 4*PADDING+16),(self.base[0] + PADDING + i*offset, self.base[1] + 4*PADDING + 22)))
 
-            text_surface = myfont.render(self.question[i+1], False, (255, 255, 255))
+            text_surface = myfont.render(self.answers[i], False, (255, 255, 255))
             self.screen.blit(text_surface, (self.base[0] + PADDING+24 + i*offset, self.base[1] + 4*PADDING))
 
