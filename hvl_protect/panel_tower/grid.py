@@ -19,17 +19,16 @@ class Grid:
     
     def generater_selector_towers(self):
         self.selector.generater_towers()
+        tower_index = 0
         for tower in self.selector.towers:
-            pygame.draw.rect(self.screen, self.selector.tower_selection_box_color, tower.shape)
+            pygame.draw.rect(self.screen, self.selector.tower_colors[tower_index], tower.shape)
+            tower_index += 1
 
     def select_and_place_tower(self,mouse_clicked_pos):
-        # print(self.selector.towers[0][0])
-        for tower in self.selector.towers:
-            if (mouse_clicked_pos[0]-tower.shape[0] <= self.selector.tower_selection_box_size 
-                and mouse_clicked_pos[1]-tower.shape[1] <= self.selector.tower_selection_box_size):
-                print("here")
-
-        
+        for i in range(self.selector.n_of_towers):
+            if (mouse_clicked_pos[0]-self.selector.towers[i].shape[0] <= self.selector.tower_selection_box_size 
+                and mouse_clicked_pos[1]-self.selector.towers[i].shape[1] <= self.selector.tower_selection_box_size):
+                self.selector.change_color_selected(i)
 
     def get_pixel_position(self, row, column):
         return (self.base[0] + self.width/self.num_columns/2 + column*self.width/self.num_columns, self.base[1] + self.height/self.num_rows/2 + row*self.height/self.num_rows)
