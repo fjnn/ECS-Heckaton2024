@@ -2,6 +2,7 @@
 import pygame
 from inventory.item.enemies import Enemy 
 from panel_tower.grid import Grid as TowerGrid
+from panel_question.grid import Grid as QuestionGrid
 
 # pygame setup
 pygame.init()
@@ -13,7 +14,8 @@ enemy_2 = Enemy()
 enemy_2.position = [400, 400]
 enemies = [enemy_1, enemy_2]
 
-panel_tower = TowerGrid(screen, base=[500,60])
+panel_tower = TowerGrid(screen, base=[10,100])
+panel_question = QuestionGrid(screen, base=[10,500])
 
 dt = 0
 
@@ -33,6 +35,7 @@ while running:
         pygame.draw.circle(screen, enemy.color, enemy.position, enemy.size)
 
     panel_tower.update()
+    panel_question.update()
 
     
     
