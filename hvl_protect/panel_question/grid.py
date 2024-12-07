@@ -1,10 +1,11 @@
 import pygame
 import random
+from inventory.item.energy import Energy
 
 PADDING = 40
 
 class Grid:
-    def __init__(self, screen, base=[0,0]) -> None:
+    def __init__(self, screen, energy_manager: Energy, base=[0,0]) -> None:
         self.base = base
         self.screen = screen
         self.color = "lightblue4"
@@ -14,7 +15,7 @@ class Grid:
         self.selection = 0
         self.last_key = None
         self.answer_screen = False
-        print(base)
+        self.energy_manager = energy_manager
 
     def update(self):
         pygame.draw.rect(self.screen, self.color, pygame.Rect(self.base[0], self.base[1], self.width, self.height))
@@ -45,12 +46,10 @@ class Grid:
                     self.selection = 0
                 else:
                     if self.verifyAnswer():
-                        print("Correct")
+                        self.energy_manager.current_energy += 3
                     else:
-                        print("Incorrect")
                         self.answer_screen = True
             
-
 
     def displayWrong(self):
         # display red background with "wrong" text for 4 seconds
@@ -99,11 +98,14 @@ class Grid:
 
         # select sections of 60 characters from the question for
         question_wrapped = []
-        for i in range(0, int(len(self.question[0])/60)):
-            end_idx = 100+i*100
-            if end_idx > len(self.question[0]):
-                end_idx = len(self.question[0])
-            question_wrapped.append(self.question[0][0+i*100:end_idx])
+        if len(self.question[0]) < 60:
+            question_wrapped.append(self.question[0])
+        else:
+            for i in range(0, int(len(self.question[0])/60)):
+                end_idx = 100+i*100
+                if end_idx > len(self.question[0]):
+                    end_idx = len(self.question[0])
+                question_wrapped.append(self.question[0][0+i*100:end_idx])
     
         for i in range(0, len(question_wrapped)):
             text_surface = myfont.render(question_wrapped[i], False, (255, 255, 255))

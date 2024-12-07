@@ -13,7 +13,7 @@ running = True
 energy_manager = Energy()
 
 panel_tower = TowerGrid(screen, energy_manager=energy_manager, base=[0,0])
-panel_question = QuestionGrid(screen, base=[0,screen.get_height()*(2/3)])
+panel_question = QuestionGrid(screen, base=[0,screen.get_height()*(2/3)], energy_manager=energy_manager)
 
 dt = 0
 
