@@ -43,11 +43,8 @@ class Grid:
        
 
     def update(self):
-        # pygame.draw.rect(self.screen, self.color, pygame.Rect(self.base[0], self.base[1],self.width, self.height))
-
         # draw the background from the assets
         self.screen.blit(self.background, (self.base[0], self.base[1]))
-
 
         self.draw_grid()    
         self.draw_enemies()    
