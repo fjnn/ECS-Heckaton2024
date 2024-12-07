@@ -1,11 +1,23 @@
+import random
+
 class Enemy:
-    def __init__(self) -> None:
-        self.position = [500, 500]
+    def __init__(self, grid_width, grid_height) -> None:
+        self.generate(grid_width, grid_height)
+
+    def generate(self, grid_width, grid_height):
+        """
+        Generate a new enemy with random position and speed.
+        """ 
+
+        self.position = [random.randint(int(grid_width/2), grid_width), random.randint(0, grid_height)]
         self.color = "red"
-        self.size = 5
+        self.speed = random.randint(1, 10)
+        self.size = 10
 
-    def generate_enemy(self):
-        pass
+    def move(self):
+        """
+        Move the enemy towards the base with its speed.
+        Movement is horizontal only.
+        """
 
-    def move_enemy(self):
-        pass
+        self.position[0] -= self.speed
