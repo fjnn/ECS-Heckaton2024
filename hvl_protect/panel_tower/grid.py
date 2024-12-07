@@ -24,16 +24,16 @@ class Grid:
             tower_index += 1
 
     def select_and_place_tower(self,mouse_clicked_pos):
-        print(self.selector.towers[0].color)
-        self.selector.towers[0].color = "blue"
-
         for i in range(self.selector.n_of_towers):
-            # print(self.selector.towers[i].shape)
-            if (mouse_clicked_pos[0]-self.selector.towers[i].shape[0] <= self.selector.tower_selection_box_size/2 
-                and mouse_clicked_pos[1]-self.selector.towers[i].shape[1] <= self.selector.tower_selection_box_size/2):
+            if (mouse_clicked_pos[0] >= self.selector.towers[i].shape[0] 
+                and mouse_clicked_pos[0] <= self.selector.towers[i].shape[0]+self.selector.tower_selection_box_size
+                and mouse_clicked_pos[1] >= self.selector.towers[i].shape[1] 
+                and mouse_clicked_pos[1] <= self.selector.towers[i].shape[1]+self.selector.tower_selection_box_size):
                 self.selector.selected = i
-                # print("mouse:  ", mouse_clicked_pos)
-                # print("size:  ", self.selector.tower_selection_box_size)
+                print("selected  ", i)
+            # print("mouse:  ", mouse_clicked_pos)
+            # print("tower:  ", self.selector.towers[i].shape)
+            # print("size:  ", self.selector.tower_selection_box_size)
                 # print(self.selector.selected)
                 # self.selector.change_color_selected(i)
 
