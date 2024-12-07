@@ -24,6 +24,10 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        # handle MOUSEBUTTONUP
+        if event.type == pygame.MOUSEBUTTONUP:
+            mouse_clicked_pos = pygame.mouse.get_pos()
+            panel_tower.select_and_place_tower(mouse_clicked_pos)
 
     # fill the screen with a color to wipe away anything from last frame
     screen.fill("seashell4")
