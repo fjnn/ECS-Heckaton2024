@@ -21,7 +21,7 @@ class TowerSelector:
         self.towers = []
         self.generater_towers()
         self.change_color_selected(index=-1)
-        self.selected_tower = None
+        self.selected_tower_index = None
         self.default_color = "black"
         self.selected_color = "blue"
     

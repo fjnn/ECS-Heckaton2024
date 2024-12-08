@@ -42,20 +42,20 @@ class Grid:
                 and mouse_clicked_pos[0] <= self.selector.towers[i].shape[0]+self.selector.tower_selection_box_size
                 and mouse_clicked_pos[1] >= self.selector.towers[i].shape[1] 
                 and mouse_clicked_pos[1] <= self.selector.towers[i].shape[1]+self.selector.tower_selection_box_size):
-                if self.selector.selected_tower == i: # deselect tower
-                    self.selector.selected_tower = -1
+                if self.selector.selected_tower_index == i: # deselect tower
+                    self.selector.selected_tower_index = -1
                     self.selector.towers[i].color = self.selector.default_color
                 else:
-                    self.selector.selected_tower = i
+                    self.selector.selected_tower_index = i
                     self.selector.towers[i].color = self.selector.selected_color
                     self.placed_tower_flag = False # no tower has been placed
 
     def place_tower(self,pos):
         spawn_tower = Tower(corner_position=pos)
         self.towers.append(spawn_tower)
-        self.selector.selected_tower = -1
+        self.selector.towers[self.selector.selected_tower_index].color = self.selector.default_color
+        self.selector.selected_tower_index = -1
         
-
 
     def get_pixel_position(self, row, column):
         return (self.base[0] + self.width/self.num_columns/2 + column*self.width/self.num_columns, self.base[1] + self.height/self.num_rows/2 + row*self.height/self.num_rows)

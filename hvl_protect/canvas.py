@@ -40,7 +40,7 @@ while running:
                                                                                panel_tower.selected_grid[1]))
                     panel_tower.mouse_state = "void"
             
-            if panel_tower.selector.selected_tower == -1:
+            if panel_tower.selector.selected_tower_index == -1:
                 panel_tower.mouse_state = "void"
             else:
                 panel_tower.mouse_state = "selected"
