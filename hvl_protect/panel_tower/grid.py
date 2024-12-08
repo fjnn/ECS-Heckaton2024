@@ -14,15 +14,27 @@ class Grid:
         self.num_rows = 5
         self.num_columns = 10
         self.grid_size = 30
+        self.selected_grid = [-1, -1]
+        # states: void, selected, placed
+        self.mouse_state = "void"
         self.enemies = []
 
         self.selector = TowerSelector()
+        self.towers = []
     
     def generater_selector_towers(self):
         tower_index = 0
+        # For towers in the selector
         for tower in self.selector.towers:
             pygame.draw.rect(self.screen, self.selector.towers[tower_index].color, tower.shape)
             tower_index += 1
+        tower_index = 0
+        # For towers in the actual grid
+        for tower in self.towers:
+            pygame.draw.rect(self.screen, self.selector.towers[tower_index].color, tower.shape)
+            tower_index += 1
+
+
 
     def select_tower(self,mouse_clicked_pos):
         for i in range(self.selector.n_of_towers):
@@ -30,15 +42,20 @@ class Grid:
                 and mouse_clicked_pos[0] <= self.selector.towers[i].shape[0]+self.selector.tower_selection_box_size
                 and mouse_clicked_pos[1] >= self.selector.towers[i].shape[1] 
                 and mouse_clicked_pos[1] <= self.selector.towers[i].shape[1]+self.selector.tower_selection_box_size):
-                if self.selector.selected == i: # deselect tower
-                    self.selector.selected = -1
+                if self.selector.selected_tower == i: # deselect tower
+                    self.selector.selected_tower = -1
                     self.selector.towers[i].color = self.selector.default_color
                 else:
-                    self.selector.selected = i
+                    self.selector.selected_tower = i
                     self.selector.towers[i].color = self.selector.selected_color
+                    self.placed_tower_flag = False # no tower has been placed
 
-    def place_tower(self,mouse_clicked_pos):
-        pass
+    def place_tower(self,pos):
+        spawn_tower = Tower(corner_position=pos)
+        self.towers.append(spawn_tower)
+        self.selector.selected_tower = -1
+        
+
 
     def get_pixel_position(self, row, column):
         return (self.base[0] + self.width/self.num_columns/2 + column*self.width/self.num_columns, self.base[1] + self.height/self.num_rows/2 + row*self.height/self.num_rows)

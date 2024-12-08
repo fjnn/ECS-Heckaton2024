@@ -11,13 +11,6 @@ class Tower:
         self.color = color
 
 
-class GridTowers:
-    def __init__(self):
-        self.towers = []
-
-    def append_tower(self, position):
-        pass
-
 
 class TowerSelector:
     def __init__(self) -> None:
@@ -28,7 +21,7 @@ class TowerSelector:
         self.towers = []
         self.generater_towers()
         self.change_color_selected(index=-1)
-        self.selected = None
+        self.selected_tower = None
         self.default_color = "black"
         self.selected_color = "blue"
     
