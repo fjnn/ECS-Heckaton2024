@@ -118,7 +118,8 @@ class Grid:
                 # self.collision_positions.append(enemy.position)
                 self.explosions.append(Explosion(enemy.position))
                 self.enemies.remove(enemy)
-                self.current_score += 10
+                if enemy.health <= 0:
+                    self.current_score += 10
 
         # after random time add a new enemy
         if pygame.time.get_ticks() % 120 == 0:
