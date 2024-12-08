@@ -31,14 +31,10 @@ while running:
 
             if panel_tower.mouse_state == "selected":
                 if mouse_clicked_pos[1] <= 390: #TODO: assign variable
-                    for i in range(panel_tower.num_columns):
-                        for j in range(panel_tower.num_rows):
-                            grid = panel_tower.get_pixel_position(i,j)
-                            if(grid[0]-mouse_clicked_pos[0] >= 0):
-                                break
-                        if(grid[1]-mouse_clicked_pos[1] >= 0):
-                            break
-                    panel_tower.selected_grid = [i,j]
+
+                    gird_row, grid_col = panel_tower.get_closest_grid_position(mouse_clicked_pos[0], mouse_clicked_pos[1])
+
+                    panel_tower.selected_grid = [gird_row,grid_col]
                     panel_tower.place_tower(pos=panel_tower.get_pixel_position(panel_tower.selected_grid[0], 
                                                                                panel_tower.selected_grid[1]))
                     panel_tower.mouse_state = "void"
@@ -47,7 +43,6 @@ while running:
                 panel_tower.mouse_state = "void"
             else:
                 panel_tower.mouse_state = "selected"
-            print(panel_tower.mouse_state)
 
 
     # fill the screen with a color to wipe away anything from last frame

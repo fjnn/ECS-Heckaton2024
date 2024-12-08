@@ -53,7 +53,7 @@ class Grid:
         tower_index = 0
         # For towers in the actual grid
         for tower in self.towers:
-            self.screen.blit(self.selector.tower_assets[tower_index%4],  (tower.shape[0]-4, tower.shape[1]-4, tower.shape[2]-8, tower.shape[3]-8))
+            self.screen.blit(tower.asset,  (tower.shape[0]-4, tower.shape[1]-4, tower.shape[2]-8, tower.shape[3]-8))
             tower_index += 1
             # pygame.draw.rect(self.screen, "black", tower)
 
@@ -63,20 +63,24 @@ class Grid:
                 and mouse_clicked_pos[0] <= self.selector.towers[i].shape[0]+self.selector.tower_selection_box_size
                 and mouse_clicked_pos[1] >= self.selector.towers[i].shape[1] 
                 and mouse_clicked_pos[1] <= self.selector.towers[i].shape[1]+self.selector.tower_selection_box_size):
+
                 if self.selector.selected_tower_index == i: # deselect tower
                     self.selector.selected_tower_index = -1
                     self.selector.towers[i].color = self.selector.default_color
                     self.show_grid = False
                 else:
+                    if self.energy_manager.current_energy < self.selector.towers[i].cost:
+                        return
                     self.selector.selected_tower_index = i
                     self.selector.towers[i].color = self.selector.selected_color
                     self.placed_tower_flag = False # no tower has been placed
                     self.show_grid = True
 
+
     def place_tower(self,pos):
-        spawn_tower = Tower(corner_position=pos)
+        spawn_tower = Tower(corner_position=pos, asset=self.selector.tower_assets[self.selector.selected_tower_index]) 
         self.towers.append(spawn_tower)
-        self.energy_manager.current_energy -= spawn_tower.cost
+        self.energy_manager.reduce_energy(spawn_tower.cost)
         self.selector.towers[self.selector.selected_tower_index].color = self.selector.default_color
         self.selector.selected_tower_index = -1
         self.show_grid = False
@@ -85,7 +89,7 @@ class Grid:
     def get_pixel_position(self, row, column):
         return (self.base[0] + self.width/self.num_columns/2 + column*self.width/self.num_columns, self.base[1] + self.height/self.num_rows/2 + row*self.height/self.num_rows)
 
-    def get_closest_grid_position(self, x, y):
+    def get_closest_grid_position(self, x, y): #TODO!
         row = 0
         column = 0
         for i in range(self.num_rows):
@@ -96,10 +100,13 @@ class Grid:
                     column = j
                 if y > self.get_pixel_position(i,j)[1]-grid_y_distance/2 and y < self.get_pixel_position(i+1,j+1)[1]+grid_y_distance/2:
                     row = i
+        
+        if row == self.num_rows -1:
+            row -= 1
         return row, column
 
     def draw_grid(self):
-        for i in range(self.num_rows):
+        for i in range(self.num_rows - 1):
             for j in range(self.num_columns):
                 pygame.draw.circle(self.screen, "lightsteelblue", self.get_pixel_position(i, j), 5)
 
@@ -127,12 +134,12 @@ class Grid:
             enemy.swap_index()
             self.screen.blit(enemy.imgs[enemy.img_index], (enemy.position[0], enemy.position[1]))
 
-    def tower_shots(self):
+    def tower_shots(self, pos=[0,0]):
         laser_height = 10
         laser_width = 20
         if pygame.time.get_ticks() % 60 == 0:
-            for i in range(self.n_of_towers):
-                x, y = self.get_pixel_position(i, 0)
+            for tower_index in range(len(self.towers)):
+                x, y = self.towers[tower_index].get_center_pos()
                 y -= laser_height/2
                 self.projectiles.append((x, y))
 
@@ -144,9 +151,7 @@ class Grid:
         if len(self.projectiles) == 0 or len(self.enemies) == 0:
             return
         for projectile in self.projectiles:
-            # print(f"projeciles position: {projectile}")
             if projectile[0] > self.screen.get_width():
-                # print("projectile off screen")
                 self.projectiles.remove(projectile)
                 continue
             for enemy in self.enemies:
@@ -169,7 +174,7 @@ class Grid:
 
 
        
-    def update_energy_bar(self):
+    def update_energy_bar(self): #TODO!
         bar_height = 20
         text_size = 40
         ratio = self.energy_manager.current_energy / self.energy_manager.max_energy
