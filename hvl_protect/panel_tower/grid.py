@@ -73,6 +73,7 @@ class Grid:
     def place_tower(self,pos):
         spawn_tower = Tower(corner_position=pos)
         self.towers.append(spawn_tower)
+        self.energy_manager.current_energy -= spawn_tower.cost
         self.selector.towers[self.selector.selected_tower_index].color = self.selector.default_color
         self.selector.selected_tower_index = -1
         self.show_grid = False
