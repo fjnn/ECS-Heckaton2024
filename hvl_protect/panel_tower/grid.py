@@ -25,6 +25,8 @@ class Grid:
         self.towers= 4*[pygame.Rect(0,0,0,0)]
         self.current_score = 0
         self.projectiles = []
+        self.collision_positions = []
+        self.collision
     
     def generater_towers(self):
         tower_index = 0
@@ -42,6 +44,19 @@ class Grid:
     def get_pixel_position(self, row, column):
         return (self.base[0] + self.width/self.num_columns/2 + column*self.width/self.num_columns, self.base[1] + self.height/self.num_rows/2 + row*self.height/self.num_rows)
 
+    def get_closest_grid_position(self, x, y):
+        row = 0
+        column = 0
+        for i in range(self.num_rows):
+            for j in range(self.num_columns):
+                if x > self.get_pixel_position(i,j)[0] and x < self.get_pixel_position(i+1,j+1)[0]:
+                    column = j
+                if y > self.get_pixel_position(i,j)[1] and y < self.get_pixel_position(i+1,j+1)[1]:
+                    row = i
+                # if x > self.base[0] + j*self.width/self.num_columns and x < self.base[0] + (j+1)*self.width/self.num_columns and y > self.base[1] + i*self.height/self.num_rows and y < self.base[1] + (i+1)*self.height/self.num_rows:
+                #     return (i, j)
+        return row, column
+
     def draw_grid(self):
         for i in range(self.num_rows):
             for j in range(self.num_columns):
@@ -52,11 +67,12 @@ class Grid:
         # check if any enemies have to be removed
         for enemy in self.enemies:
             if enemy.position[0] < self.base[0] or enemy.health <= 0:
+                self.collision_positions.append(enemy.position)
                 self.enemies.remove(enemy)
                 self.current_score += 10
 
         # after random time add a new enemy
-        if pygame.time.get_ticks() % 60 == 0:
+        if pygame.time.get_ticks() % 120 == 0:
 
             row = random.randint(0, self.num_rows-2)
             enemy_position = self.get_pixel_position(row, self.num_columns-1)
@@ -82,6 +98,32 @@ class Grid:
         for i, projectile in enumerate(self.projectiles):
             self.projectiles[i] = (projectile[0]+5, projectile[1])
             pygame.draw.rect(self.screen, "red", (self.projectiles[i][0], self.projectiles[i][1], laser_width, laser_height))
+
+    def check_laser_hit(self):
+        if len(self.projectiles) == 0 or len(self.enemies) == 0:
+            return
+        for projectile in self.projectiles:
+            # print(f"projeciles position: {projectile}")
+            if projectile[0] > self.screen.get_width():
+                # print("projectile off screen")
+                self.projectiles.remove(projectile)
+                continue
+            for enemy in self.enemies:
+                enemy_row = self.get_closest_grid_position(enemy.position[0], enemy.position[1])[0]
+                projectile_row = self.get_closest_grid_position(projectile[0], projectile[1])[0]
+                if enemy_row == projectile_row and projectile[0]+20 > enemy.position[0]:
+                    print("hit")
+                    print(f"projectile list length: {len(self.projectiles)}")
+                    enemy.take_damage(25)
+                    try:
+                        self.projectiles.remove(projectile)
+                    except:
+                        continue
+    
+    def draw_explosion(self):
+        for pos in self.collision_positions:
+
+
        
     def update_energy_bar(self):
         bar_height = 20
@@ -111,6 +153,7 @@ class Grid:
         self.generater_towers()
         self.update_scoring()
         self.tower_shots()
+        self.check_laser_hit()
 
         
    
