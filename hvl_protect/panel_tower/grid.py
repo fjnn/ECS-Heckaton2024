@@ -53,7 +53,7 @@ class Grid:
         tower_index = 0
         # For towers in the actual grid
         for tower in self.towers:
-            self.screen.blit(self.selector.tower_assets[tower_index%4],  (tower.shape[0]-4, tower.shape[1]-4, tower.shape[2]-8, tower.shape[3]-8))
+            self.screen.blit(tower.asset,  (tower.shape[0]-4, tower.shape[1]-4, tower.shape[2]-8, tower.shape[3]-8))
             tower_index += 1
             # pygame.draw.rect(self.screen, "black", tower)
 
@@ -76,8 +76,9 @@ class Grid:
                     self.placed_tower_flag = False # no tower has been placed
                     self.show_grid = True
 
+
     def place_tower(self,pos):
-        spawn_tower = Tower(corner_position=pos) 
+        spawn_tower = Tower(corner_position=pos, asset=self.selector.tower_assets[self.selector.selected_tower_index]) 
         self.towers.append(spawn_tower)
         self.energy_manager.reduce_energy(spawn_tower.cost)
         self.selector.towers[self.selector.selected_tower_index].color = self.selector.default_color
@@ -145,9 +146,7 @@ class Grid:
         if len(self.projectiles) == 0 or len(self.enemies) == 0:
             return
         for projectile in self.projectiles:
-            # print(f"projeciles position: {projectile}")
             if projectile[0] > self.screen.get_width():
-                # print("projectile off screen")
                 self.projectiles.remove(projectile)
                 continue
             for enemy in self.enemies:

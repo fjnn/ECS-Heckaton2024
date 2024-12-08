@@ -47,7 +47,6 @@ while running:
                 panel_tower.mouse_state = "void"
             else:
                 panel_tower.mouse_state = "selected"
-            print(panel_tower.mouse_state)
 
 
     # fill the screen with a color to wipe away anything from last frame
