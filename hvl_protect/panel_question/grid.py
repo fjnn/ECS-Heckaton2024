@@ -91,13 +91,13 @@ class Grid:
          # get answers only to shuffle
         self.answers = current_question[1:len(current_question)-1]
         # shuffle answers
-        random.shuffle(self.answers)
+        # random.shuffle(self.answers)
 
         return current_question
     
 
     def verifyAnswer(self):
-        return self.current_question[self.selection+1] == self.current_question[len(self.current_question)-1]
+        return self.answers[self.selection] == self.current_question[len(self.current_question)-1]
         
 
     def displayQuestion(self):
