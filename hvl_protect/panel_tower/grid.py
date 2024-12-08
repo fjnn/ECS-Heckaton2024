@@ -55,7 +55,7 @@ class Grid:
         tower_index = 0
         # For towers in the actual grid
         for tower in self.towers:
-            self.screen.blit(self.tower_assets[tower_index],  (tower.shape[0]-4, tower.shape[1]-4, tower.shape[2]-8, tower.shape[3]-8))
+            self.screen.blit(self.tower_assets[tower_index%4],  (tower.shape[0]-4, tower.shape[1]-4, tower.shape[2]-8, tower.shape[3]-8))
             tower_index += 1
 
 
