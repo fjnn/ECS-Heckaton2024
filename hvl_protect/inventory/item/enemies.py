@@ -20,6 +20,10 @@ class Enemy:
 
         self.explosion_imgs = []
         self.explosion_imgs.append(pygame.image.load("assets/explosion1.png").convert_alpha())
+        self.explosion_imgs.append(pygame.image.load("assets/explosion2.png").convert_alpha())
+        self.explosion_imgs.append(pygame.image.load("assets/explosion3.png").convert_alpha())
+        self.explosion_position = (0, 0)
+        self.explosion_cntr = 0
         # self.img_height = self.imgs[0].get_height()
         # self.position[1] = self.position[1]-self.img_height/2
         self.position = (self.position[0], self.position[1]-self.imgs[0].get_height()/2)
