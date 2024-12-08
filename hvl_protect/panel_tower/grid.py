@@ -90,9 +90,11 @@ class Grid:
         column = 0
         for i in range(self.num_rows):
             for j in range(self.num_columns):
-                if x > self.get_pixel_position(i,j)[0] and x < self.get_pixel_position(i+1,j+1)[0]:
+                grid_x_distance = abs(self.get_pixel_position(i+1,j+1)[0] - self.get_pixel_position(i,j)[0])
+                grid_y_distance = abs(self.get_pixel_position(i+1,j+1)[1] - self.get_pixel_position(i,j)[1])
+                if x > self.get_pixel_position(i,j)[0]-grid_x_distance/2 and x < self.get_pixel_position(i+1,j+1)[0] + grid_x_distance/2:
                     column = j
-                if y > self.get_pixel_position(i,j)[1] and y < self.get_pixel_position(i+1,j+1)[1]:
+                if y > self.get_pixel_position(i,j)[1]-grid_y_distance/2 and y < self.get_pixel_position(i+1,j+1)[1]+grid_y_distance/2:
                     row = i
         return row, column
 
