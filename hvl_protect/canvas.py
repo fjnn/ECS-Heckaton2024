@@ -38,7 +38,7 @@ while running:
                                 break
                         if(grid[1]-mouse_clicked_pos[1] >= 0):
                             break
-                    panel_tower.selected_grid = [i,j]
+                    panel_tower.selected_grid = [i,j-1]
                     panel_tower.place_tower(pos=panel_tower.get_pixel_position(panel_tower.selected_grid[0], 
                                                                                panel_tower.selected_grid[1]))
                     panel_tower.mouse_state = "void"
