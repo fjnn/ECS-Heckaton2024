@@ -133,8 +133,8 @@ class Grid:
         laser_height = 10
         laser_width = 20
         if pygame.time.get_ticks() % 60 == 0:
-            for i in range(self.n_of_towers):
-                x, y = self.get_pixel_position(i, 0)
+            for tower_index in range(len(self.towers)):
+                x, y = self.towers[tower_index].get_center_pos()
                 y -= laser_height/2
                 self.projectiles.append((x, y))
 
