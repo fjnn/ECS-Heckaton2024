@@ -117,8 +117,9 @@ class Grid:
         
         x_base, y_base = self.get_pixel_position(4, 4)
         x_end, y_end = self.get_pixel_position(4, 7)
-        pygame.draw.rect(self.screen, "black", pygame.Rect(x_base, y_base-bar_height, x_end-x_base, bar_height*2))
-        pygame.draw.rect(self.screen, "blue", pygame.Rect(x_base, y_base-bar_height/2, (x_end-x_base)*ratio, bar_height))
+        # pygame.draw.rect(self.screen, "black", pygame.Rect(x_base, y_base-bar_height, x_end-x_base, bar_height*2))
+        pygame.draw.rect(self.screen, "grey", pygame.Rect(x_base-6, y_base-bar_height, x_end-x_base+6, bar_height*2))
+        pygame.draw.rect(self.screen, "lightblue4", pygame.Rect(x_base, y_base-bar_height/2-4, (x_end-x_base)*ratio, bar_height+8))
         write_text(self.screen, f"{self.energy_manager.current_energy}", x=x_base+(x_end-x_base)/2, y=y_base, size=text_size)
 
     def update_scoring(self):
