@@ -1,14 +1,13 @@
 import pygame
 
 class Tower:
-    def __init__(self, corner_position=[0,0], size=30, color="black") -> None:
+    def __init__(self, corner_position=[0,0], size=30, asset=None, cost=10) -> None:
         self.health = 100
         self.size = size
-        self.shape = pygame.Rect(corner_position[0], corner_position[1],size,size)
-        self.color = color
+        self.shape = pygame.Rect(corner_position[0]-int(size/2), corner_position[1]- int(size/2),size,size)
+        self.cost = cost 
+        self.asset = asset
 
-    def change_color(self, color):
-        self.color = color
 
 
 class TowerSelector:
@@ -18,11 +17,16 @@ class TowerSelector:
         self.space_between_tower_selection = 100
         self.n_of_towers = 4
         self.towers = []
-        self.generater_towers()
-        self.change_color_selected(index=-1)
-        self.selected = None
-        self.default_color = "black"
+        self.selected_tower_index = None
+        self.default_color = "yellow"
         self.selected_color = "blue"
+        self.tower_assets = [
+            pygame.image.load("assets/tower1.png").convert_alpha(),
+            pygame.image.load("assets/tower2.png").convert_alpha(),
+            pygame.image.load("assets/tower3.png").convert_alpha(),
+            pygame.image.load("assets/tower1.png").convert_alpha()
+        ]
+        self.generater_towers()
     
     def generater_towers(self):
         self.towers=[]
@@ -36,12 +40,10 @@ class TowerSelector:
             tower.shape[1] = self.tower_selection_box_offset[1]
             tower.shape[2] = self.tower_selection_box_size
             tower.shape[3] = self.tower_selection_box_size
+
+            tower.asset = self.tower_assets[tower_index]
             tower_index += 1
 
-    
-    def change_color_selected(self, index):
-        if not index == -1:
-            self.towers[index].color = "blue"
             
 
 
