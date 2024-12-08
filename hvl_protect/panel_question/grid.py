@@ -21,7 +21,7 @@ class Grid:
                 self.questions.append(line.strip().split(","))
         random.shuffle(self.questions)
 
-        self.current_question = self.getQuestion()
+        self.getQuestion()
         self.answers = self.current_question[1:len(self.current_question)-1]
         self.selection = 0
         self.last_key = None
@@ -87,17 +87,16 @@ class Grid:
     def getQuestion(self):
     
         # pick a random question
-        current_question = random.choice(self.questions)
+        self.current_question = random.choice(self.questions)
          # get answers only to shuffle
-        self.answers = current_question[1:len(current_question)-1]
+        self.answers = self.current_question[1:len(self.current_question)-1]
         # shuffle answers
-        random.shuffle(self.answers)
+        # random.shuffle(self.answers)
 
-        return current_question
     
 
     def verifyAnswer(self):
-        return self.current_question[self.selection+1] == self.current_question[len(self.current_question)-1]
+        return self.answers[self.selection] == self.current_question[len(self.current_question)-1]
         
 
     def displayQuestion(self):
