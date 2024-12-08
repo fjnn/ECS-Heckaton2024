@@ -1,7 +1,7 @@
 import pygame
 
 class Tower:
-    def __init__(self, corner_position=[0,0], size=30, color="black") -> None:
+    def __init__(self, corner_position=[0,0], size=30, color="yellow") -> None:
         self.health = 100
         self.size = size
         self.shape = pygame.Rect(corner_position[0], corner_position[1],size,size)
@@ -22,7 +22,7 @@ class TowerSelector:
         self.generater_towers()
         self.change_color_selected(index=-1)
         self.selected_tower_index = None
-        self.default_color = "black"
+        self.default_color = "yellow"
         self.selected_color = "blue"
     
     def generater_towers(self):
