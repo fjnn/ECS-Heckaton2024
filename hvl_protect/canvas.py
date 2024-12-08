@@ -2,6 +2,7 @@
 import pygame
 from panel_tower.grid import Grid as TowerGrid
 from panel_question.grid import Grid as QuestionGrid
+from inventory.item.energy import Energy
 
 # pygame setup
 pygame.init()
@@ -9,8 +10,10 @@ screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
 running = True
 
-panel_tower = TowerGrid(screen, base=[0,0])
-panel_question = QuestionGrid(screen, base=[0,720*(2/3)])
+energy_manager = Energy()
+
+panel_tower = TowerGrid(screen, energy_manager=energy_manager, base=[0,0])
+panel_question = QuestionGrid(screen, base=[0,screen.get_height()*(2/3)], energy_manager=energy_manager)
 
 dt = 0
 
@@ -21,6 +24,31 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        # handle MOUSEBUTTONUP
+        if event.type == pygame.MOUSEBUTTONUP:
+            mouse_clicked_pos = pygame.mouse.get_pos()
+            panel_tower.select_tower(mouse_clicked_pos)
+
+            if panel_tower.mouse_state == "selected":
+                if mouse_clicked_pos[1] <= 390: #TODO: assign variable
+                    for i in range(panel_tower.num_columns):
+                        for j in range(panel_tower.num_rows):
+                            grid = panel_tower.get_pixel_position(i,j)
+                            if(grid[0]-mouse_clicked_pos[0] >= 0):
+                                break
+                        if(grid[1]-mouse_clicked_pos[1] >= 0):
+                            break
+                    panel_tower.selected_grid = [i,j]
+                    panel_tower.place_tower(pos=panel_tower.get_pixel_position(panel_tower.selected_grid[0], 
+                                                                               panel_tower.selected_grid[1]))
+                    panel_tower.mouse_state = "void"
+            
+            if panel_tower.selector.selected_tower_index == -1:
+                panel_tower.mouse_state = "void"
+            else:
+                panel_tower.mouse_state = "selected"
+            print(panel_tower.mouse_state)
+
 
     # fill the screen with a color to wipe away anything from last frame
     screen.fill("seashell4")
