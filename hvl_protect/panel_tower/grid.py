@@ -63,20 +63,23 @@ class Grid:
                 and mouse_clicked_pos[0] <= self.selector.towers[i].shape[0]+self.selector.tower_selection_box_size
                 and mouse_clicked_pos[1] >= self.selector.towers[i].shape[1] 
                 and mouse_clicked_pos[1] <= self.selector.towers[i].shape[1]+self.selector.tower_selection_box_size):
+
                 if self.selector.selected_tower_index == i: # deselect tower
                     self.selector.selected_tower_index = -1
                     self.selector.towers[i].color = self.selector.default_color
                     self.show_grid = False
                 else:
+                    if self.energy_manager.current_energy < self.selector.towers[i].cost:
+                        return
                     self.selector.selected_tower_index = i
                     self.selector.towers[i].color = self.selector.selected_color
                     self.placed_tower_flag = False # no tower has been placed
                     self.show_grid = True
 
     def place_tower(self,pos):
-        spawn_tower = Tower(corner_position=pos)
+        spawn_tower = Tower(corner_position=pos) 
         self.towers.append(spawn_tower)
-        self.energy_manager.current_energy -= spawn_tower.cost
+        self.energy_manager.reduce_energy(spawn_tower.cost)
         self.selector.towers[self.selector.selected_tower_index].color = self.selector.default_color
         self.selector.selected_tower_index = -1
         self.show_grid = False
