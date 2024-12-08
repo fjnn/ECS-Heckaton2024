@@ -30,6 +30,7 @@ class Grid:
         self.n_of_towers = 4
         self.towers= 4*[pygame.Rect(0,0,0,0)]
         self.current_score = 0
+        self.show_grid = False
         self.tower_assets = [
             pygame.image.load("assets/tower1.png").convert_alpha(),
             pygame.image.load("assets/tower2.png").convert_alpha(),
@@ -45,13 +46,16 @@ class Grid:
         tower_index = 0
         # For towers in the selector
         for tower in self.selector.towers:
-            self.screen.blit(self.tower_assets[tower_index], tower.shape)
-            # pygame.draw.rect(self.screen, self.selector.towers[tower_index].color, tower.shape)
+            pygame.draw.rect(self.screen, "grey", tower.shape)
+            # reduce shape by 4 pixels around the borders
+            reduced_shape = (tower.shape[0]+4, tower.shape[1]+4, tower.shape[2]-8, tower.shape[3]-8)
+            pygame.draw.rect(self.screen, "lightblue4", reduced_shape)
+            self.screen.blit(self.tower_assets[tower_index], (tower.shape[0]+10, tower.shape[1]+10, tower.shape[2]-14, tower.shape[3]-14))
             tower_index += 1
         tower_index = 0
         # For towers in the actual grid
         for tower in self.towers:
-            pygame.draw.rect(self.screen, self.selector.towers[tower_index].color, tower.shape)
+            self.screen.blit(self.tower_assets[tower_index],  (tower.shape[0]-4, tower.shape[1]-4, tower.shape[2]-8, tower.shape[3]-8))
             tower_index += 1
 
 
@@ -65,16 +69,19 @@ class Grid:
                 if self.selector.selected_tower_index == i: # deselect tower
                     self.selector.selected_tower_index = -1
                     self.selector.towers[i].color = self.selector.default_color
+                    self.show_grid = False
                 else:
                     self.selector.selected_tower_index = i
                     self.selector.towers[i].color = self.selector.selected_color
                     self.placed_tower_flag = False # no tower has been placed
+                    self.show_grid = True
 
     def place_tower(self,pos):
         spawn_tower = Tower(corner_position=pos)
         self.towers.append(spawn_tower)
         self.selector.towers[self.selector.selected_tower_index].color = self.selector.default_color
         self.selector.selected_tower_index = -1
+        self.show_grid = False
         
 
     def get_pixel_position(self, row, column):
@@ -83,7 +90,7 @@ class Grid:
     def draw_grid(self):
         for i in range(self.num_rows):
             for j in range(self.num_columns):
-                pygame.draw.circle(self.screen, "orange", self.get_pixel_position(i, j), 5)
+                pygame.draw.circle(self.screen, "lightsteelblue", self.get_pixel_position(i, j), 5)
 
 
     def draw_enemies(self):
@@ -130,9 +137,9 @@ class Grid:
         # draw the background from the assets
         self.screen.blit(self.background, (self.base[0], self.base[1]))
 
-        self.draw_grid()    
-        self.draw_enemies()    
-        self.draw_grid()        
+        self.draw_enemies()
+        if self.show_grid:
+            self.draw_grid()        
         self.generater_selector_towers()
         self.update_energy_bar()      
         self.update_scoring()
