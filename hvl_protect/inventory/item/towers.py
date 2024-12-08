@@ -4,7 +4,7 @@ class Tower:
     def __init__(self, corner_position=[0,0], size=30, color="yellow") -> None:
         self.health = 100
         self.size = size
-        self.shape = pygame.Rect(corner_position[0], corner_position[1],size,size)
+        self.shape = pygame.Rect(corner_position[0]-int(size/2), corner_position[1]- int(size/2),size,size)
         self.color = color
 
     def change_color(self, color):
