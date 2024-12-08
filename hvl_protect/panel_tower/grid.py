@@ -98,10 +98,13 @@ class Grid:
                     column = j
                 if y > self.get_pixel_position(i,j)[1] and y < self.get_pixel_position(i+1,j+1)[1]:
                     row = i
+        
+        if row == self.num_rows -1:
+            row -= 1
         return row, column
 
     def draw_grid(self):
-        for i in range(self.num_rows):
+        for i in range(self.num_rows - 1):
             for j in range(self.num_columns):
                 pygame.draw.circle(self.screen, "lightsteelblue", self.get_pixel_position(i, j), 5)
 
