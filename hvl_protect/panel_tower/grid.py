@@ -1,5 +1,6 @@
 import pygame
 import random
+from inventory.item.towers import Tower, TowerSelector
 from inventory.item.enemies import Enemy 
 from inventory.item.expolsion import Explosion
 from inventory.item.energy import Energy
@@ -39,7 +40,7 @@ class Grid:
         self.towers = []
 
     
-    def generater_towers(self):
+    def generater_selector_towers(self):
         tower_index = 0
         # For towers in the selector
         for tower in self.selector.towers:
@@ -53,9 +54,8 @@ class Grid:
         # For towers in the actual grid
         for tower in self.towers:
             self.screen.blit(self.selector.tower_assets[tower_index%4],  (tower.shape[0]-4, tower.shape[1]-4, tower.shape[2]-8, tower.shape[3]-8))
-
             tower_index += 1
-            pygame.draw.rect(self.screen, "black", tower)
+            # pygame.draw.rect(self.screen, "black", tower)
 
     def select_tower(self,mouse_clicked_pos):
         for i in range(self.selector.n_of_towers):
