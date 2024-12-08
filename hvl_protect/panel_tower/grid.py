@@ -1,8 +1,6 @@
 import pygame
 import random
 from inventory.item.enemies import Enemy 
-from inventory.item.towers import Tower
-from inventory.item.towers import TowerSelector
 
 from inventory.item.energy import Energy
 from util import write_text
@@ -26,28 +24,20 @@ class Grid:
         self.n_of_towers = 4
         self.towers= 4*[pygame.Rect(0,0,0,0)]
         self.current_score = 0
-
-        self.selector = TowerSelector()
+        self.projectiles = []
     
-    def generater_selector_towers(self):
+    def generater_towers(self):
         tower_index = 0
-        for tower in self.selector.towers:
-            pygame.draw.rect(self.screen, self.selector.towers[tower_index].color, tower.shape)
+        for tower in self.towers:
+            tower[0] = self.tower_selection_box_offset[0] + tower_index*self.space_between_tower_selection
+            tower[1] = self.tower_selection_box_offset[1]
+            tower[2] = self.tower_selection_box_size
+            tower[3] = self.tower_selection_box_size
             tower_index += 1
+            pygame.draw.rect(self.screen, "black", tower)
 
-    def select_and_place_tower(self,mouse_clicked_pos):
-        for i in range(self.selector.n_of_towers):
-            if (mouse_clicked_pos[0] >= self.selector.towers[i].shape[0] 
-                and mouse_clicked_pos[0] <= self.selector.towers[i].shape[0]+self.selector.tower_selection_box_size
-                and mouse_clicked_pos[1] >= self.selector.towers[i].shape[1] 
-                and mouse_clicked_pos[1] <= self.selector.towers[i].shape[1]+self.selector.tower_selection_box_size):
-                if self.selector.selected == i:
-                    self.selector.selected = -1
-                    self.selector.towers[i].color = self.selector.default_color
-                else:
-                    self.selector.selected = i
-                    self.selector.towers[i].color = self.selector.selected_color
-
+    def select_and_place_tower(self):
+        pass
 
     def get_pixel_position(self, row, column):
         return (self.base[0] + self.width/self.num_columns/2 + column*self.width/self.num_columns, self.base[1] + self.height/self.num_rows/2 + row*self.height/self.num_rows)
@@ -79,6 +69,19 @@ class Grid:
             enemy.swap_index()
             self.screen.blit(enemy.imgs[enemy.img_index], (enemy.position[0], enemy.position[1]))
             # pygame.draw.circle(self.screen, enemy.color, (enemy.position[0], enemy.position[1]), enemy.size)
+
+    def tower_shots(self):
+        laser_height = 10
+        laser_width = 20
+        if pygame.time.get_ticks() % 60 == 0:
+            for i in range(self.n_of_towers):
+                x, y = self.get_pixel_position(i, 0)
+                y -= laser_height/2
+                self.projectiles.append((x, y))
+
+        for i, projectile in enumerate(self.projectiles):
+            self.projectiles[i] = (projectile[0]+5, projectile[1])
+            pygame.draw.rect(self.screen, "red", (self.projectiles[i][0], self.projectiles[i][1], laser_width, laser_height))
        
     def update_energy_bar(self):
         bar_height = 20
@@ -104,10 +107,10 @@ class Grid:
 
         self.draw_grid()    
         self.draw_enemies()    
-        self.draw_grid()        
-        self.generater_selector_towers()
-        self.update_energy_bar()      
+        self.update_energy_bar()       
+        self.generater_towers()
         self.update_scoring()
+        self.tower_shots()
 
         
    
