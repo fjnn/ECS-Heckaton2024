@@ -88,7 +88,7 @@ class Grid:
     def get_pixel_position(self, row, column):
         return (self.base[0] + self.width/self.num_columns/2 + column*self.width/self.num_columns, self.base[1] + self.height/self.num_rows/2 + row*self.height/self.num_rows)
 
-    def get_closest_grid_position(self, x, y):
+    def get_closest_grid_position(self, x, y): #TODO!
         row = 0
         column = 0
         for i in range(self.num_rows):
@@ -128,7 +128,7 @@ class Grid:
             enemy.swap_index()
             self.screen.blit(enemy.imgs[enemy.img_index], (enemy.position[0], enemy.position[1]))
 
-    def tower_shots(self):
+    def tower_shots(self, pos=[0,0]):
         laser_height = 10
         laser_width = 20
         if pygame.time.get_ticks() % 60 == 0:
@@ -170,7 +170,7 @@ class Grid:
 
 
        
-    def update_energy_bar(self):
+    def update_energy_bar(self): #TODO!
         bar_height = 20
         text_size = 40
         ratio = self.energy_manager.current_energy / self.energy_manager.max_energy
