@@ -11,6 +11,7 @@ class Tower:
         self.color = color
 
 
+
 class TowerSelector:
     def __init__(self) -> None:
         self.tower_selection_box_offset = [50, 400]
@@ -20,7 +21,7 @@ class TowerSelector:
         self.towers = []
         self.generater_towers()
         self.change_color_selected(index=-1)
-        self.selected = None
+        self.selected_tower_index = None
         self.default_color = "black"
         self.selected_color = "blue"
     
