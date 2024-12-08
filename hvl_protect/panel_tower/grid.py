@@ -31,12 +31,6 @@ class Grid:
         self.towers= 4*[pygame.Rect(0,0,0,0)]
         self.current_score = 0
         self.show_grid = False
-        self.tower_assets = [
-            pygame.image.load("assets/tower1.png").convert_alpha(),
-            pygame.image.load("assets/tower2.png").convert_alpha(),
-            pygame.image.load("assets/tower3.png").convert_alpha(),
-            pygame.image.load("assets/tower1.png").convert_alpha()
-        ]
 
 
         self.selector = TowerSelector()
@@ -50,12 +44,12 @@ class Grid:
             # reduce shape by 4 pixels around the borders
             reduced_shape = (tower.shape[0]+4, tower.shape[1]+4, tower.shape[2]-8, tower.shape[3]-8)
             pygame.draw.rect(self.screen, "lightblue4", reduced_shape)
-            self.screen.blit(self.tower_assets[tower_index], (tower.shape[0]+10, tower.shape[1]+10, tower.shape[2]-14, tower.shape[3]-14))
+            self.screen.blit(self.selector.tower_assets[tower_index], (tower.shape[0]+10, tower.shape[1]+10, tower.shape[2]-14, tower.shape[3]-14))
             tower_index += 1
         tower_index = 0
         # For towers in the actual grid
         for tower in self.towers:
-            self.screen.blit(self.tower_assets[tower_index%4],  (tower.shape[0]-4, tower.shape[1]-4, tower.shape[2]-8, tower.shape[3]-8))
+            self.screen.blit(self.selector.tower_assets[tower_index%4],  (tower.shape[0]-4, tower.shape[1]-4, tower.shape[2]-8, tower.shape[3]-8))
             tower_index += 1
 
 
