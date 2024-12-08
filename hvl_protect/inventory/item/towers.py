@@ -7,6 +7,11 @@ class Tower:
         self.shape = pygame.Rect(corner_position[0]-int(size/2), corner_position[1]- int(size/2),size,size)
         self.cost = cost 
         self.asset = asset
+    
+    def get_center_pos(self):
+        row = self.shape[0]+self.size/2
+        col = self.shape[1]+self.size/2
+        return row, col
 
 
 
